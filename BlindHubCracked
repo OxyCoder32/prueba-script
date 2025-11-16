@@ -170,14 +170,38 @@ if placeId == 155615604 then -- Prison life
     key = game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Key/refs/heads/main/Prison%20life")
     createKeyPanel(key)
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Prison-life/refs/heads/main/Prison%20life"))()
+pcall(function()
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Nexus Developed - Swag Hub Cracked",
+    Text = "by z3r0d4 & .developed",
+    Icon = "rbxassetid://6238540373",
+    Duration = 6
+})
+end)
 elseif placeId == 15784744207 then -- valley prison
     key = game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Key/refs/heads/main/Valley%20prison")
     createKeyPanel(key)
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Valley/refs/heads/main/Valley%20prison"))()
+pcall(function()
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Nexus Developed - Swag Hub Cracked",
+    Text = "by z3r0d4 & .developed",
+    Icon = "rbxassetid://6238540373",
+    Duration = 6
+})
+end)
 elseif placeId == 7711635737 then -- Emergency Hamburg
     key = game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Key/refs/heads/main/Emergency")
     createKeyPanel(key)
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Emergency-Hamburg/refs/heads/main/EH"))()
+pcall(function()
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Nexus Developed - Swag Hub Cracked",
+    Text = "by z3r0d4 & .developed",
+    Icon = "rbxassetid://6238540373",
+    Duration = 6
+})
+end)
 else 
     print("Game not supported")
 end
