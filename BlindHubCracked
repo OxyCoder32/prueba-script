@@ -204,4 +204,5 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 end)
 else 
     print("Game not supported")
+    game.Players.LocalPlayer:Kick("❌ Unsupported game")
 end
