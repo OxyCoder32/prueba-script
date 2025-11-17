@@ -1,0 +1,9 @@
+local old; old = hookfunction(game.HttpGet, function(...)
+    local a = {...}
+  if a[2] == "https://raw.githubusercontent.com/vqmpjayZ/laboratory/refs/heads/main/ArrayField/Key/AKS.lua" then
+      a[2] = "https://pastebin.com/raw/sFpuRT0D"
+  end
+  return old(unpack(a))
+end)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/Vadrifts-Hub/refs/heads/main/Games/Starving-Artists/source.lua"))()
