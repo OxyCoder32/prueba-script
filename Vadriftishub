@@ -7,3 +7,12 @@ local old; old = hookfunction(game.HttpGet, function(...)
 end)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/Vadrifts-Hub/refs/heads/main/Games/Starving-Artists/source.lua"))()
+
+pcall(function()
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Nexus Developed - Vadriftishub Cracked",
+    Text = "Re execute when leave",
+    Icon = "rbxassetid://6238540373",
+    Duration = 10
+})
+end)
