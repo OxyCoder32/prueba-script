@@ -1,0 +1,19 @@
+if game.PlaceId == 6284583030 or game.PlaceId == 10321372166 or game.PlaceId == 7722306047 or game.PlaceId == 11725212117 then
+    loadstring(game:HttpGetAsync("https://lua-library.btteam.net/Game/Pet-simulator-x.txt"))() -- PET SIM X 
+    
+elseif game.PlaceId == 2753915549 or game.PlaceId == 4442272183 or game.PlaceId == 7449423635 then
+    loadstring(game:HttpGetAsync("https://files.btteam.net/files/games/bf/free-bloxfruit.lua"))() -- BLOX FRUIT
+    
+elseif game.PlaceId == 3956818381 then
+    loadstring(game:HttpGetAsync("https://lua-library.btteam.net/Game/Ninja-legends.txt"))() -- NINJA LEGENDS
+    
+elseif game.PlaceId == 4520749081 or game.PlaceId == 6381829480 or game.placeId == 15759515082 or game.PlaceId == 5931540094 then
+    loadstring(game:HttpGetAsync('https://lua-library.btteam.net/Game/King-legacy.txt'))() -- KING LEGACY
+    
+elseif game.PlaceId == 13127800756 then
+    loadstring(game:HttpGetAsync('https://lua-library.btteam.net/Game/Arm-wrestle-simulator.txt'))() -- ARM WRESTLE SIMULATOR
+    
+elseif game.PlaceId == 15131065025 or game.PlaceId == 13772394625 or game.PlaceId == 14915220621 or game.PlaceId == 14732610803 or game.PlaceId == 15144787112 or game.PlaceId == 15517169103 or game.PlaceId == 15552588346 or game.PlaceId == 16281300371 then
+    loadstring(game:HttpGetAsync('https://lua-library.btteam.net/Game/Bladeball.txt'))() -- BLADE BALL
+    
+end
