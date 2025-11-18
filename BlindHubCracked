@@ -179,17 +179,30 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 })
 end)
 elseif placeId == 15784744207 then -- valley prison
+    local isMobile = (game:GetService("UserInputService").TouchEnabled and not game:GetService("UserInputService").KeyboardEnabled)
+    local deviceType = "PC"
+    
+    if isMobile then
+        deviceType = "Mobile"
+    end
+    
     key = game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Key/refs/heads/main/Valley%20prison")
     createKeyPanel(key)
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Valley/refs/heads/main/Valley%20prison"))()
-pcall(function()
-game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "Nexus Developed - Swag Hub Cracked",
-    Text = "by z3r0d4 & .developed",
-    Icon = "rbxassetid://6238540373",
-    Duration = 6
-})
-end)
+    
+    if isMobile then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Valley/refs/heads/main/Mobile"))()
+    else
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Valley/refs/heads/main/Pc%20valley"))()
+    end
+    
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Nexus Developed - Swag Hub Cracked",
+            Text = "by z3r0d4 & .developed | Device: " .. deviceType,
+            Icon = "rbxassetid://6238540373",
+            Duration = 6
+        })
+    end)
 elseif placeId == 7711635737 then -- Emergency Hamburg
     key = game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Key/refs/heads/main/Emergency")
     createKeyPanel(key)
