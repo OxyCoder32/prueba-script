@@ -166,7 +166,7 @@ end
 
 
 if gameId == 7935634976 then -- The lost Font
-    key = game:HttpGet("https://raw.githubusercontent.com/Blind-Man-Walking/Key/refs/heads/main/Prison%20life")
+    key = game:HttpGet("https://pastebin.com/raw/SG9aQuRp")
     createKeyPanel(key)
     loadstring(game:HttpGet("https://raw.githubusercontent.com/larsscriptz/Scripts/refs/heads/main/TheLostFront",true))()
     
