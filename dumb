@@ -1,0 +1,296 @@
+-- Junkie Development API Response Generator
+-- Genera respuestas válidas idénticas al servidor oficial
+
+local JunkieResponseGenerator = {}
+
+-- Claves de debug extraídas del análisis
+local DEBUG_KEYS = {
+    decryption_key = "c4fc1c5fd4f6a7d16995c89b7f539677",
+    bypass_token = "707bd7506d93f8038ccc24a1b8440a504ed321878b0f5549ea5e551c8335a2c7",
+    key_id = "1f251124-1c1b-4c1d-b240-2b6ac913ae01"
+}
+
+-- Configuración del sistema
+local SYSTEM_CONFIG = {
+    version = "20",
+    algorithm = "none",
+    security_level = "high"
+}
+
+function JunkieResponseGenerator.generateVerifyKeyResponse(user_data)
+    local timestamp = os.time() * 1000
+    local nonce = JunkieResponseGenerator.generateNonce()
+    
+    -- Estructura base idéntica al servidor real
+    local response = {
+        data = {
+            data = {
+                r_d = JunkieResponseGenerator.generateByteCode(),
+                r_s = JunkieResponseGenerator.generateHash(timestamp),
+                r_t = timestamp,
+                r_n = JunkieResponseGenerator.generateRandomHash(),
+                r_f = JunkieResponseGenerator.generateFingerprint(),
+                _v = SYSTEM_CONFIG.version,
+                _k = JunkieResponseGenerator.generateSessionKey(),
+                _s = "e",
+                _x = JunkieResponseGenerator.generateChecksum(),
+                _m = timestamp + 37, -- timestamp futuro
+                _c = SYSTEM_CONFIG.algorithm,
+                _h = JunkieResponseGenerator.generateHeaderHash(),
+                __trap_a6a0f7e9 = "TRAP_" .. timestamp .. "_3969b3966e2e1240",
+                __debug_58f4360f = {
+                    decryption_key = DEBUG_KEYS.decryption_key,
+                    bypass_token = DEBUG_KEYS.bypass_token
+                },
+                data = JunkieResponseGenerator.encryptData(user_data),
+                signature = JunkieResponseGenerator.generateSignature(user_data, timestamp)
+            },
+            signature = JunkieResponseGenerator.generateRSASignature(user_data, timestamp),
+            keyId = DEBUG_KEYS.key_id,
+            timestamp = timestamp + 1,
+            nonce = nonce
+        },
+        signature = JunkieResponseGenerator.generateFinalSignature(timestamp),
+        keyId = DEBUG_KEYS.key_id,
+        timestamp = timestamp + 4,
+        nonce = JunkieResponseGenerator.generateNonce()
+    }
+    
+    return response
+end
+
+function JunkieResponseGenerator.generatePreVerifyResponse(session_data)
+    local timestamp = os.time() * 1000
+    
+    return {
+        data = {
+            data = {
+                _td = JunkieResponseGenerator.generateByteCode(),
+                _xh = JunkieResponseGenerator.generateHash(timestamp),
+                _wt = timestamp,
+                _vn = JunkieResponseGenerator.generateRandomHash(),
+                _uf = JunkieResponseGenerator.generateFingerprint(),
+                _v = "38",
+                _k = JunkieResponseGenerator.generateSessionKey(),
+                _s = "e",
+                _x = JunkieResponseGenerator.generateChecksum(),
+                _m = timestamp + 62,
+                _c = "rsa",
+                _h = JunkieResponseGenerator.generateHeaderHash(),
+                __trap_e98b38c0 = "TRAP_" .. timestamp .. "_92ba0e753dca1e75",
+                __debug_07d8ff76 = {
+                    decryption_key = "5b88b92ea44a2da5681410d02a23cca0",
+                    bypass_token = "b7ed2a36e1711cda08a8513d61190ab2d763a772ae674f4eaab411e26dd23509"
+                },
+                data = JunkieResponseGenerator.encryptData(session_data),
+                signature = JunkieResponseGenerator.generateSignature(session_data, timestamp)
+            },
+            signature = JunkieResponseGenerator.generateRSASignature(session_data, timestamp),
+            keyId = DEBUG_KEYS.key_id,
+            timestamp = timestamp + 1,
+            nonce = JunkieResponseGenerator.generateNonce()
+        },
+        signature = JunkieResponseGenerator.generateFinalSignature(timestamp),
+        keyId = DEBUG_KEYS.key_id,
+        timestamp = timestamp + 3,
+        nonce = JunkieResponseGenerator.generateNonce()
+    }
+end
+
+function JunkieResponseGenerator.generateChallengeResponse(challenge_data)
+    local timestamp = os.time() * 1000
+    
+    return {
+        data = {
+            data = {
+                m_dt = JunkieResponseGenerator.generateByteCode(),
+                m_sig = JunkieResponseGenerator.generateHash(timestamp),
+                m_ts = timestamp,
+                m_nc = JunkieResponseGenerator.generateRandomHash(),
+                m_fp = JunkieResponseGenerator.generateFingerprint(),
+                _v = "92",
+                _k = JunkieResponseGenerator.generateSessionKey(),
+                _s = "d",
+                _x = JunkieResponseGenerator.generateChecksum(),
+                _m = timestamp + 87,
+                _c = "aes",
+                _h = JunkieResponseGenerator.generateHeaderHash(),
+                __trap_f9d33832 = "TRAP_" .. timestamp .. "_287680f40d6d7b6a",
+                __debug_52355aaa = {
+                    decryption_key = "0644e3b62b33d93b393a6ecd57d2b5b6",
+                    bypass_token = "89f845a508d7c0488a51fa5904c7217f309c4b72c069857e75876df8839e04c8"
+                },
+                data = JunkieResponseGenerator.encryptData(challenge_data),
+                signature = JunkieResponseGenerator.generateSignature(challenge_data, timestamp)
+            },
+            signature = JunkieResponseGenerator.generateRSASignature(challenge_data, timestamp),
+            keyId = DEBUG_KEYS.key_id,
+            timestamp = timestamp + 1,
+            nonce = JunkieResponseGenerator.generateNonce()
+        },
+        signature = JunkieResponseGenerator.generateFinalSignature(timestamp),
+        keyId = DEBUG_KEYS.key_id,
+        timestamp = timestamp + 3,
+        nonce = JunkieResponseGenerator.generateNonce()
+    }
+end
+
+-- Funciones de utilidad
+function JunkieResponseGenerator.generateNonce()
+    local chars = "abcdef0123456789"
+    local nonce = ""
+    for i = 1, 32 do
+        nonce = nonce .. string.sub(chars, math.random(1, #chars), 1)
+    end
+    return nonce
+end
+
+function JunkieResponseGenerator.generateSessionKey()
+    local key = ""
+    for i = 1, 16 do
+        key = key .. string.format("%02x", math.random(0, 255))
+    end
+    return key
+end
+
+function JunkieResponseGenerator.generateChecksum()
+    return string.format("%08x", math.random(0, 0xFFFFFFFF))
+end
+
+function JunkieResponseGenerator.generateHeaderHash()
+    return string.format("%08x", math.random(0, 0xFFFFFFFF))
+end
+
+function JunkieResponseGenerator.generateHash(input)
+    -- Simula SHA256 (usando patrón similar al servidor)
+    return string.format("%064x", math.random(0, 0xFFFFFFFFFFFFFFFF)) .. string.format("%064x", math.random(0, 0xFFFFFFFFFFFFFFFF))
+end
+
+function JunkieResponseGenerator.generateRandomHash()
+    return string.format("%032x", math.random(0, 0xFFFFFFFFFFFFFFFF))
+end
+
+function JunkieResponseGenerator.generateFingerprint()
+    return string.format("%032x", math.random(0, 0xFFFFFFFFFFFFFFFF))
+end
+
+function JunkieResponseGenerator.generateByteCode()
+    -- Genera array de strings Base64-like similares al servidor
+    local bytecode = {}
+    for i = 1, math.random(150, 250) do
+        local chunk = ""
+        for j = 1, 4 do
+            chunk = chunk .. string.char(math.random(65, 90)) -- A-Z
+        end
+        table.insert(bytecode, chunk)
+    end
+    return bytecode
+end
+
+function JunkieResponseGenerator.encryptData(data)
+    -- Simula el cifrado (en realidad devuelve hash similar)
+    return string.format("%032x", math.random(0, 0xFFFFFFFFFFFFFFFF))
+end
+
+function JunkieResponseGenerator.generateSignature(data, timestamp)
+    -- Genera firma SHA256-like
+    return string.format("%064x", math.random(0, 0xFFFFFFFFFFFFFFFF))
+end
+
+function JunkieResponseGenerator.generateRSASignature(data, timestamp)
+    -- Simula firma RSA (base64-like larga)
+    local sig = ""
+    for i = 1, 344 do -- Longitud típica de firma base64
+        sig = sig .. string.char(math.random(65, 90))
+    end
+    return sig .. "=="
+end
+
+function JunkieResponseGenerator.generateFinalSignature(timestamp)
+    -- Firma final más larga
+    local sig = ""
+    for i = 1, 344 do
+        sig = sig .. string.char(math.random(65, 90))
+    end
+    return sig .. "=="
+end
+
+-- Interceptador HTTP global
+local function setupHTTPInterceptor()
+    local originalHttpGet
+    local originalHttpPost
+    
+    -- Guardar funciones originales
+    originalHttpGet = hookfunction(game.HttpGet, function(self, url, ...)
+        if string.find(url, "junkie-development.de") then
+            local endpoint = url:match("api/v1/flow/securedv2/([%w%-]+)")
+            
+            if endpoint == "verifyKey-staged" then
+                local user_data = {
+                    key = url:match("key=([%w]+)") or "1234567890",
+                    hwid = url:match("hwid=([%w%-]+)") or "B12FB14B-5A11-4E7D-BB7B-22B75BDD6472",
+                    user_id = url:match("roblox_user_id=([%w]+)") or "9254794325",
+                    username = url:match("roblox_username=([%w]+)") or "reverdies7",
+                    service = url:match("service=([%w%%20]+)") or "casual stock"
+                }
+                
+                local response = JunkieResponseGenerator.generateVerifyKeyResponse(user_data)
+                return game:GetService("HttpService"):JSONEncode(response)
+                
+            elseif endpoint == "pre-verify" then
+                local session_data = {
+                    session_id = "generated_session_" .. JunkieResponseGenerator.generateNonce(),
+                    status = "verified"
+                }
+                
+                local response = JunkieResponseGenerator.generatePreVerifyResponse(session_data)
+                return game:GetService("HttpService"):JSONEncode(response)
+                
+            elseif endpoint == "challenge-v2" then
+                local challenge_data = {
+                    challenge_type = "crypto_puzzle",
+                    status = "completed"
+                }
+                
+                local response = JunkieResponseGenerator.generateChallengeResponse(challenge_data)
+                return game:GetService("HttpService"):JSONEncode(response)
+            end
+        end
+        
+        return originalHttpGet(self, url, ...)
+    end)
+    
+    originalHttpPost = hookfunction(game.HttpPost, function(self, url, data, ...)
+        if string.find(url, "junkie-development.de") then
+            local endpoint = url:match("api/v1/flow/securedv2/([%w%-]+)")
+            
+            if endpoint == "verifyKey-staged" then
+                local user_data = game:GetService("HttpService"):JSONDecode(data)
+                local response = JunkieResponseGenerator.generateVerifyKeyResponse(user_data)
+                return game:GetService("HttpService"):JSONEncode(response)
+            end
+        end
+        
+        return originalHttpPost(self, url, data, ...)
+    end)
+end
+
+-- Ejemplo de uso
+local function testGenerator()
+    local test_user = {
+        key = "1234567890",
+        hwid = "B12FB14B-5A11-4E7D-BB7B-22B75BDD6472", 
+        user_id = "9254794325",
+        username = "reverdies7",
+        service = "casual stock"
+    }
+    
+    local response = JunkieResponseGenerator.generateVerifyKeyResponse(test_user)
+    print("Response generada:")
+    print(game:GetService("HttpService"):JSONEncode(response))
+end
+
+-- Inicializar interceptor
+setupHTTPInterceptor()
+
+return JunkieResponseGenerator
